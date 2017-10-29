@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sac-a-dos Resolvant</title>
+    <!--/***************************************-->
+    <!--***BAZINE Tarek - CHIKHAISSA Mahfoud****-->
+    <!--****ESI 2017/18 TPGO TP1****-->
+    <!--****************************************/-->
+    <title>Sac a dos</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="css/theme.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <style>
+        @font-face {
+            font-family: 'Changa';
+            src: url('css/fonts/Changa-Regular.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'Changa', sans-serif;
+            font-size: 1.7em;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col col-xs-3 col-sm-2 col-lg-1 col-md-1 center-block ">
+                    <a href="#"><img src="img/knapsack.png" alt="knapsack" class="img-responsive"></a>
+                </div>
+                <div class="col col-lg-4 col-sm-3 col-md-4  bg-succes bg-succes text-primary center-block ">
+                    <h2>SAC-A-DOS Résolvant</h2>
+                </div>
+                <div class="col col-sm-1 col-md-3 col-lg-3  "></div>
+                <div class="col col-sm-4 col-md-4 col-lg-4 " style="margin-top: 25px">
+                    <button type="button" class="btn btn-primary btn-block"  data-toggle="modal" data-target="#aprpos">A propos</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="aprpos" role="dialog" style="">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title"><b>SAC-A-DOS Résolvant</b></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><b>Développé par:</b><br>
+                                                    BAZINE Tarek <br>
+                                                    CHIKH AISSA Mahfoud <br><br>
+                                                    <b>Dirigé par:</b><br>
+                                                    M. HADIM B<br><br>
+                                                    Tous les droits sont réservés ESI/SIL-2017</p>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+<!-- page body -->
+<div class="container-bg">
+    <div class="container">
+
+        <div class="col col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+        <div class="col col-lg-10 col-md-10 col-sm-10 col-xs-10 well">
+            <div class="row">
+                <h3><span class="label label-default">Problématique</span></h3>
+                <br>
+
+                <div class="row ">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 center-block">
+                        <div class="para">
+                            <p>On dispose de objets de poids positifs et de valeurs
+                                positives , respectivement.<br>
+                                On a un sac à dos de capacité maximale en poids de W.<br>
+                                <br>
+                                <span class="text-primary"><b>Problème: </b></span> Remplir le sac à dos de sorte de
+                                maximiser
+                                la valeur des objets inclus tout en respectant
+                                la contrainte de poids. <br>
+                            </p>
+                            <p><span class="text-primary"><b>La formule du problème:</b></span></p>
+                            <img src="img/formula.png" class="img-center img-responsive formula_img ">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 center-block">
+                        <img src="img/knapsack2.png" class="img-center img-responsive">
+                    </div>
+                </div>
+                <br>
+                <hr>
+                <h3><span class="label label-default">Application</span></h3>
+                <br>
+                <form onsubmit="return false;" action="#" accept-charset="UTF-8" class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group ">
+                            <label class="col-md-3 control-label">Wmax</label>
+
+                            <div class="col-md-4">
+                                <input class="form-control numbersOnly" required="required" name="vmax" type="text"
+                                       value=0>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Tableau des objets</label>
+                            <br>
+                            <!--Le tableau-->
+                            <div class="container" style="width: 50%">
+                                <div class="row clearfix">
+                                    <div class="col-md-12 column">
+                                        <table class="table table-bordered table-hover" id="tab_logic">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    #
+                                                </th>
+                                                <th class="text-center">
+                                                    v (vateur)
+                                                </th>
+                                                <th class="text-center">
+                                                    w (poids)
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr id='addr0'>
+                                                <td>
+                                                    objet1
+                                                </td>
+                                                <td>
+                                                    <input type="text" name='value' placeholder='valeur'
+                                                           class="form-control numbersOnly" value=0
+                                                           required="required"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name='weight' placeholder='poids'
+                                                           class="form-control numbersOnly" value=0
+                                                           required="required"/>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <a id='add_row' class="btn btn-success btn-circle btn-lg pull-left">
+                                    <i class="fa fa-plus"></i></a>
+                                <a id='delete_row' class="btn btn-danger btn-circle btn-lg pull-right">
+                                    <i class="fa fa-minus"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-6 col-md-3">
+                                <input type="submit" class="btn pull-right" type="submit" value="Soumettre"
+                                       style="width: 200px"
+                                       id="btn-submit">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-offset-6 col-md-3">
+                                <input type="submit" class="btn pull-right" type="submit" value="Detail Algo"
+                                       style="width: 200px; margin-top: 10px"
+                                       id="btn-detail">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/tableau.js"></script>
+<script type="text/javascript" src="js/algo.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script>
+    $("#btn-detail").click(function () {
+        if (
+                (typeof $.cookie('N') === 'undefined') ||
+                (typeof $.cookie('W') === 'undefined') ||
+                (typeof $.cookie('w') === 'undefined') ||
+                (typeof $.cookie('v') === 'undefined')
+        ){
+            alert('svp click semaitre');
+            return false;
+        }
+                window.open("algo-details.html", "_self");
+            }
+    );
+</script>
+
+</body>
+
+</html>

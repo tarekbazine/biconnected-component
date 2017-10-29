@@ -1,0 +1,332 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Algorithme detaillé</title>
+    <!--/***************************************-->
+    <!--***BAZINE Tarek - CHIKHAISSA Mahfoud****-->
+    <!--****ESI 2017/18 TPGO TP1****-->
+    <!--****************************************/-->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <style>
+        @font-face {
+            font-family: 'Changa';
+            src: url('css/fonts/Changa-Regular.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'Changa', sans-serif;
+            font-size: 1.7em;
+
+            background-image: url('img/background-details.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .table {
+            width: auto !important;
+        }
+
+        .center-block {
+            display: table !important;
+        }
+
+        .table {
+            border: 0.5px solid #000000;
+        }
+
+        .table-bordered > thead > tr > th,
+        .table-bordered > tbody > tr > th,
+        .table-bordered > tfoot > tr > th,
+        .table-bordered > thead > tr > td,
+        .table-bordered > tbody > tr > td,
+        .table-bordered > tfoot > tr > td {
+            border: 0.5px solid #000000;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col col-xs-3 col-sm-2 col-lg-1 col-md-1 center-block ">
+                    <a href="index.html"><img src="img/knapsack.png" alt="knapsack" class="img-responsive"></a>
+                </div>
+                <div class="col col-lg-4 col-sm-3 col-md-4  bg-succes bg-succes text-primary center-block ">
+                    <h2>SAC-A-DOS Résolvant</h2>
+                </div>
+                <div class="col col-sm-1 col-md-3 col-lg-3  "></div>
+                <div class="col col-sm-4 col-md-4 col-lg-4 " style="margin-top: 25px">
+                    <button type="button" class="btn btn-primary btn-block"  data-toggle="modal" data-target="#aprpos">A propos</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="aprpos" role="dialog" style="">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title"><b>SAC-A-DOS Résolvant</b></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><b>Développé par:</b><br>
+                                                BAZINE Tarek <br>
+                                                CHIKH AISSA Mahfoud <br><br>
+                                                <b>Dirigé par:</b><br>
+                                                M. HADIM B<br><br>
+                                                Tous les droits sont réservés ESI/SIL-2017</p>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+<!-- page bady -->
+<div class="container-fluid">
+    <div class="row">
+        <h3 class="col-md-3 col-md-offset-4"
+            style="text-decoration: underline;">Entrees:</h3>
+    </div>
+
+    <div class="row text-center">
+        <table class="table table-bordered center-block">
+
+            <tbody>
+            <tr>
+                <th scope="row">W</th>
+                <td id="W-val"></td>
+            </tr>
+           </tbody>
+
+        </table>
+
+        <table class="table table-bordered center-block">
+
+            <tbody id="arr-input">
+            <tr id="v-arr">
+                <th scope="row">v</th>
+            </tr>
+            <tr id="w-arr">
+                <th scope="row">w</th>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="row">
+        <h3 class="col-md-3 col-md-offset-4"
+            style="text-decoration: underline;">Sorties:</h3>
+    </div>
+    <div class="row text-center">
+
+        <table class="table table-bordered center-block">
+
+            <thead>
+            <tr id="j">
+                <th>i \ j</th>
+            </tr>
+            </thead>
+
+            <tbody id="arr-body">
+
+            </tbody>
+
+        </table>
+    </div>
+    <br>
+    <p>
+    <h2 class="col-md-offset-3 col-md-6"
+        style="text-decoration: underline;">Algorithme:</h2>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            Pour i allant de 1 a N
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            &nbsp;&nbsp;Faire
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            &nbsp;&nbsp;&nbsp;&nbsp; Pour j allant de 0 a W
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Faire
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Si w[i] > j Alors mat[i][j] = mat[i - 1][j];
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sinon mat[i][j] = max(v[i] + mat[i - 1][j - w[i]], mat[i -
+            1][j]);
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fpour
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            &nbsp;&nbsp; Fpour
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function max(a, b) {
+        if (a > b) return a;
+        return b;
+    }
+
+    async function draw() {
+
+        var N = parseInt($.cookie('N'));
+        var W = parseInt($.cookie('W'));
+
+        /*algorithme's sructures*/
+        var w = JSON.parse($.cookie('w'));
+        var v = JSON.parse($.cookie('v'));
+
+        //remove cookies
+        $.removeCookie("W");
+        $.removeCookie("N");
+        $.removeCookie("w");
+        $.removeCookie("v");
+
+        //draw inputs table
+        $('#W-val').text(W);
+        for (var j = 0; j < N; j++) {
+            $('#v-arr').append('<td>' + v[j] + '</td>');
+            $('#w-arr').append('<td>' + w[j] + '</td>');
+        }
+
+        //draw a blanc table
+        for (var j = 0; j <= W; j++) {
+            $('#j').append('<th>' + j + '</th>');
+        }
+        for (var i = 1; i <= N; i++) {
+            $('#arr-body').append('<tr id="i' + i + '">' +
+                    '<th scope="row">' + i + '</th>' +
+                    '</tr>');
+            for (var j = 0; j <= W; j++) {
+                $('#i' + i).append('<th> </th>');
+            }
+        }
+
+        var mat = [];
+
+        // js array two dimension building
+        for (var j = 0; j <= W; j++) {
+            mat[j] = [];
+        }
+
+        /*init matrix*/
+        var th;
+        for (var i = 0; i < N; i++) {
+            th = $('#i' + (i + 1) + ' > th')[1];
+            th.innerHTML = "0";
+            mat[i][0] = 0;
+        }
+
+        //this an optimization ???!! we deleting a not-needed row
+        row1 = $('#i1 > th');
+        for (var j = 1; j <= W; j++) {
+            if (w[0] > j) {
+                row1[j + 1].innerHTML = 0;
+                await sleep(400);
+                mat[0][j] = 0;
+            } else {
+                row1[j + 1].innerHTML = w[0];
+                await sleep(400);
+                mat[0][j] = v[0];
+            }
+        }
+
+        var row;
+        for (var i = 1; i < N; i++) {
+            row = $('#i' + (i + 1) + ' > th');
+            for (var j = 0; j <= W; j++) {
+                if (w[i] > j) {
+                    mat[i][j] = mat[i - 1][j];
+                    row[j + 1].style.backgroundColor = 'red';
+                    await sleep(400);
+                } else {
+                    mat[i][j] = max(v[i] + mat[i - 1][j - w[i]], mat[i - 1][j]);
+                    row[j + 1].style.backgroundColor = 'green';
+                    await sleep(400);
+                }
+                row[j + 1].innerHTML = mat[i][j];
+                row[j + 1].style.backgroundColor = '';
+            }
+        }
+
+
+        //print selected object
+
+        //color algo
+
+        //show selecting method
+
+
+        //printing results
+        //matrix
+        //    for (var i = 0; i < N; i++) {
+        //        for (var j = 0; j <= W; j++) {
+        //            console.log(mat[i][j]);
+        //        }
+        //        console.log("\n");
+        //    }
+        //
+        //    //    //the optimal weight
+        //    console.log("\n\nthe optimal weight " + mat[N - 1][W] + " \n\n");
+        //
+        //    //list of the selected objects
+        //    var j = W;
+        //    for (var i = N - 1; i > 0; i--) {
+        //        if ((mat[i][j] == 0)) {
+        //            console.log("fin");
+        //            break;
+        //        }
+        //        if ((mat[i][j] != mat[i - 1][j])) {
+        //            console.log("object num " + (i + 1) + " has been selected \n");
+        //            j = j - w[i];
+        //        }
+        //    }
+
+    }
+
+    draw();
+</script>
+
+
+</body>
+
+</html>

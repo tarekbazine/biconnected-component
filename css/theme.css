@@ -1,0 +1,61 @@
+  
+  .navbar{
+    padding: 20px;
+  }
+
+  .container-bg {
+     background: #ffffff url('../img/background.jpg') no-repeat center;
+     background-size: 100%;
+     background-attachment: fixed;
+
+  }
+  .label-default{
+    display: block;
+    padding: 10px;
+  }
+  .navbar{
+    margin-bottom: 0px;
+  }
+  .para{
+    padding-left: 20px;
+  }
+  .table{
+    margin-top: 20px;
+     margin-bottom: 5px;
+  }
+  #table-container{
+    width: 50% !important;
+    max-width: 50%;
+  }
+  .well{
+    opacity: 0.95;
+    border-radius: 0px;
+  }
+  .btn{
+    border-radius: 0px;
+  }
+  .label{
+    border-radius: 0px;  
+  }
+  .btn-glyphicon { 
+    padding:8px; 
+    background:#ffffff; 
+    margin-right:4px; 
+  }
+  .icon-btn { 
+    padding: 1px 15px 3px 2px; 
+    border-radius:50px;
+  }
+  .btn-group-lg>.btn, .btn-lg{
+      border-radius:50px !important;
+      padding: 5px 10px;
+
+  }
+
+  .formula_img{
+      width: 50% ;
+      height: 25% ;
+      max-width: 50% ;
+      max-height: 25% ;
+      border: 1px solid gray ;
+  }
