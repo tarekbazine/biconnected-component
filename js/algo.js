@@ -98,20 +98,21 @@
 				return list;
 			}
 
-    let f4=new noeud("f4",[]);
-    let f6=new noeud("f6",[]);	
-	let f5=new noeud("f5",[]);
-	let f1=new noeud("f1",[]);
-    let f3=new noeud("f3",[]);	
-	let f2=new noeud("f2",[]);
-	let sommet1=new noeud("a",[f2,f1,f5]);
-	let sommet2=new noeud("b",[f3]);
-	f1["children"].push(sommet1);
-	f2["children"].push(sommet1);
-	f5["children"].push(sommet1);
-	f4["children"].push(f1); f1["children"].push(f4);
-	f3["children"].push(f1); f1["children"].push(f3);
-	f3["children"].push(f6); f6["children"].push(f3);
-	f3["children"].push(f2); f2["children"].push(f3);
+    // let f4=new noeud("f4",[]);
+    // let f6=new noeud("f6",[]);
+	// let f5=new noeud("f5",[]);
+	// let f1=new noeud("f1",[]);
+    // let f3=new noeud("f3",[]);
+	// let f2=new noeud("f2",[]);
+	// let sommet1=new noeud("a",[f2,f1,f5]);
+	// let sommet2=new noeud("b",[f3]);
+	// f1["children"].push(sommet1);
+	// f2["children"].push(sommet1);
+	// f5["children"].push(sommet1);
+	// f4["children"].push(f1); f1["children"].push(f4);
+	// f3["children"].push(f1); f1["children"].push(f3);
+	// f3["children"].push(f6); f6["children"].push(f3);
+	// f3["children"].push(f2); f2["children"].push(f3);
 	//console.log(isBiconnected(sommet1));
-	console.log(get_biconnected([sommet1,f1,f2,f3,f4,f5,f6]));
+	// console.log([sommet1,f1,f2,f3,f4,f5,f6]);
+	// console.log(get_biconnected([sommet1,f1,f2,f3,f4,f5,f6]));
