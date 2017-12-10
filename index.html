@@ -8,13 +8,10 @@
     <!--***BAZINE Tarek - CHIKHAISSA Mahfoud****-->
     <!--****ESI 2017/18 TPGO TP2****-->
     <!--****************************************/-->
-    <title>Point articulation</title>
+    <title>Point d'articulation</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="css/theme.css" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.css" rel="stylesheet" type="text/css"/>
 
     <style>
         @font-face {
@@ -27,22 +24,317 @@
             font-size: 1.7em;
         }
 
+        h2 {
+            color: whitesmoke;
+        }
+
+        /*net style*/
+
+        /*body, select {*/
+        /*font: 10pt sans;*/
+        /*}*/
+
         #mynetwork {
-            /*width: 600px;*/
+            position: relative;
+            /*width: 800px;*/
             height: 500px;
             border: 1px solid lightgray;
         }
 
-        h2{
-            color: whitesmoke;
+        table.legend_table {
+            font-size: 11px;
+            border-width: 1px;
+            border-color: #d3d3d3;
+            border-style: solid;
         }
+
+        table.legend_table, td {
+            border-width: 1px;
+            border-color: #d3d3d3;
+            border-style: solid;
+            padding: 2px;
+        }
+
+        div.table_content {
+            width: 80px;
+            text-align: center;
+        }
+
+        div.table_description {
+            width: 100px;
+        }
+
+        #operation {
+            font-size: 28px;
+        }
+
+        #node-popUp {
+            display: none;
+            position: absolute;
+            top: 350px;
+            left: 170px;
+            z-index: 299;
+            /*width: 250px;*/
+            height: 120px;
+            background-color: #f9f9f9;
+            border-style: solid;
+            border-width: 3px;
+            border-color: #5394ed;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #edge-popUp {
+            display: none;
+            position: absolute;
+            top: 350px;
+            left: 170px;
+            z-index: 299;
+            /*width: 250px;*/
+            height: 90px;
+            background-color: #f9f9f9;
+            border-style: solid;
+            border-width: 3px;
+            border-color: #5394ed;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /*btn style*/
+        /** {*/
+        /*margin: 0px;*/
+        /*padding: 0px*/
+        /*}*/
+
+        /*body {*/
+        /*background: #2c3e50;*/
+        /*font-family: 'Open Sans', sans-serif;*/
+        /*}*/
+
+        /*h1, button {*/
+        /*color: #fff;*/
+        /*text-align: center;*/
+        /*padding: 20px;*/
+        /*}*/
+
+        /*p {*/
+        /*color: #fff;*/
+        /*text-align: center;*/
+        /*padding-top: 500px;*/
+        /*font-size: 10px;*/
+        /*}*/
+
+        /*a {*/
+        /*text-decoration: none;*/
+        /*color: #fff;*/
+        /*}*/
+
+        /*a:hover {*/
+        /*color: #2ecc71;*/
+        /*}*/
+
+        .main {
+            width: 100%;
+
+            margin: 0px;
+            padding: 0px;
+
+            margin-top: 50%;
+            /*font-family: 'Open Sans', sans-serif;*/
+
+        }
+
+        .sub-main {
+            width: 30%;
+            /*margin: 22px;*/
+            float: left;
+        }
+
+        .button-one, .button-two, .button-three {
+            text-align: center;
+            cursor: pointer;
+            font-size: 24px;
+            margin-top: 50%;
+            /*margin: 0 0 0 100px;*/
+            color: #fff;
+        }
+
+        .button-one {
+            padding: 20px 40px;
+            outline: none;
+            background-color: #27ae60;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 9px #95a5a6;
+        }
+
+        .button-one:hover {
+            background-color: #2ecc71;
+        }
+
+        .button-one:active {
+            background-color: #2ecc71;
+            box-shadow: 0 5px #95a5a6;
+            transform: translateY(4px);
+        }
+
+        .button-two {
+            padding: 20px 40px;
+            outline: none;
+            background-color: #97ceff;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 9px #95a5a6;
+        }
+
+        .button-two:hover {
+            background-color: #bcdeff;
+        }
+
+        .button-two:active {
+            background-color: #c6e9ff;
+            box-shadow: 0 5px #95a5a6;
+            transform: translateY(4px);
+        }
+
+
     </style>
+
+
+    <script type="text/javascript" src="vis/vis.js"></script>
+    <link href="vis/vis-network.min.css" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript">
+        var nodes = null;
+        var edges = null;
+        var network = null;
+        // randomly create some nodes and edges
+        var data = {};
+        var seed = 2;
+
+
+        function destroy() {
+            if (network !== null) {
+                network.destroy();
+                network = null;
+            }
+        }
+
+        function draw(randomNET) {
+            destroy();
+            nodes = [];
+            edges = [];
+
+            // create a network
+            var container = document.getElementById('mynetwork');
+            var options = {
+                layout: {randomSeed: seed}, // just to make sure the layout is the same when the locale is changed
+                locale: 'fr',
+                manipulation: {
+                    addNode: function (data, callback) {
+                        // filling in the popup DOM elements
+                        document.getElementById('node-operation').innerHTML = "Add Node";
+                        editNode(data, clearNodePopUp, callback);
+                    },
+                    editNode: function (data, callback) {
+                        // filling in the popup DOM elements
+                        document.getElementById('node-operation').innerHTML = "Edit Node";
+                        editNode(data, cancelNodeEdit, callback);
+                    },
+                    addEdge: function (data, callback) {
+                        if (data.from == data.to) {
+                            var r = confirm("Do you want to connect the node to itself?");
+                            if (r != true) {
+                                callback(null);
+                                return;
+                            }
+                        }
+                        document.getElementById('edge-operation').innerHTML = "Add Edge";
+                        editEdgeWithoutDrag(data, callback);
+                    },
+                    editEdge: {
+                        editWithoutDrag: function (data, callback) {
+                            document.getElementById('edge-operation').innerHTML = "Edit Edge";
+                            editEdgeWithoutDrag(data, callback);
+                        }
+                    }
+                }
+            };
+            if (randomNET)
+                network = new vis.Network(container, randomNET, options);
+            else
+                network = new vis.Network(container, data, options);
+
+        }
+
+        function editNode(data, cancelAction, callback) {
+            document.getElementById('node-label').value = data.label;
+            document.getElementById('node-saveButton').onclick = saveNodeData.bind(this, data, callback);
+            document.getElementById('node-cancelButton').onclick = cancelAction.bind(this, callback);
+            document.getElementById('node-popUp').style.display = 'block';
+        }
+
+        // Callback passed as parameter is ignored
+        function clearNodePopUp() {
+            document.getElementById('node-saveButton').onclick = null;
+            document.getElementById('node-cancelButton').onclick = null;
+            document.getElementById('node-popUp').style.display = 'none';
+        }
+
+        function cancelNodeEdit(callback) {
+            clearNodePopUp();
+            callback(null);
+        }
+
+        function saveNodeData(data, callback) {
+            data.label = document.getElementById('node-label').value;
+            clearNodePopUp();
+            callback(data);
+        }
+
+        function editEdgeWithoutDrag(data, callback) {
+            // filling in the popup DOM elements
+            document.getElementById('edge-label').value = data.label;
+            document.getElementById('edge-saveButton').onclick = saveEdgeData.bind(this, data, callback);
+            document.getElementById('edge-cancelButton').onclick = cancelEdgeEdit.bind(this, callback);
+            document.getElementById('edge-popUp').style.display = 'block';
+        }
+
+        function clearEdgePopUp() {
+            document.getElementById('edge-saveButton').onclick = null;
+            document.getElementById('edge-cancelButton').onclick = null;
+            document.getElementById('edge-popUp').style.display = 'none';
+        }
+
+        function cancelEdgeEdit(callback) {
+            clearEdgePopUp();
+            callback(null);
+        }
+
+        function saveEdgeData(data, callback) {
+            if (typeof data.to === 'object')
+                data.to = data.to.id
+            if (typeof data.from === 'object')
+                data.from = data.from.id
+            data.label = document.getElementById('edge-label').value;
+            clearEdgePopUp();
+            callback(data);
+        }
+
+        function init() {
+            draw();
+        }
+
+    </script>
+
 </head>
 
-<body>
+<body onload="init();">
 
-<header>
-    <nav class="navbar navbar-inverse navbar-static-top" style="background-color: #97ceff;">
+<header style="border: none;
+            border-radius: 5px;
+            box-shadow: 0 5px #95a5a6;">
+    <nav class="navbar navbar-inverse navbar-static-top" style="background-color: #97ceff;border: none">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col col-xs-3 col-sm-2 col-lg-1 col-md-1 center-block ">
@@ -53,7 +345,11 @@
                 </div>
                 <div class="col col-sm-1 col-md-3 col-lg-3  "></div>
                 <div class="col col-sm-4 col-md-4 col-lg-4 " style="margin-top: 25px">
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#aprpos">A
+                    <button type="button"
+                            style="border: none;
+            border-radius: 5px;
+            box-shadow: 0 3px #95a5a6;"
+                            class="btn btn-primary btn-block" data-toggle="modal" data-target="#aprpos">A
                         propos
                     </button>
                 </div>
@@ -80,206 +376,141 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button"
+                        class="btn btn-default" data-dismiss="modal">Close
+                </button>
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-10">
 
+            <div id="node-popUp">
+                <span id="node-operation">noede</span> <br>
+                <table style="margin:auto;">
+                    <tr>
+                        <td>id</td>
+                        <td><input id="node-id" value="new value"/></td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td><input id="node-label" value="new value"/></td>
+                    </tr>
+                </table>
+                <input type="button" value="save" id="node-saveButton"/>
+                <input type="button" value="cancel" id="node-cancelButton"/>
+            </div>
+
+            <div id="edge-popUp">
+                <span id="edge-operation">Aret</span> <br>
+                <table style="margin:auto;">
+                    <tr>
+                        <td>label</td>
+                        <td><input id="edge-label" value="new value"/></td>
+                    </tr>
+                </table>
+                <input type="button" value="save" id="edge-saveButton"/>
+                <input type="button" value="cancel" id="edge-cancelButton"/>
+            </div>
+
+            <br/>
             <div id="mynetwork"></div>
 
-
         </div>
-        <div class="col-md-3">
-            <div style="margin-top: 50%" class="btn-group-vertical center-block">
-                <button type="button" class="btn btn-primary" onclick="addNode()">Ajouter</button>
-                <br>
-                <button type="button" class="btn btn-primary">Samsung</button>
-                <br>
-                <button type="button" class="btn btn-primary">Sony</button>
+
+
+        <div class="col-md-2">
+            <div class="main">
+                <div class="sub-main">
+
+                    <button onclick="dd()"
+                            class="button-one">Executer l'Algo
+                    </button>
+
+                    <button onclick="randomNet()"
+                            class="button-two">Graph ou HAZARD
+                    </button>
+                </div>
             </div>
+
         </div>
 
     </div>
 
 </div>
 
-<!-- page body -->
-<!--<div class="container-bg">-->
-<!--<div class="container">-->
 
-<!--<div class="col col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>-->
-<!--<div class="col col-lg-10 col-md-10 col-sm-10 col-xs-10 well">-->
-<!--<div class="row">-->
-<!--<h3><span class="label label-default">Problématique</span></h3>-->
-<!--<br>-->
+<script src="js/jquery.js"></script>
 
-<!--<div class="row ">-->
-<!--<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 center-block">-->
-<!--<div class="para">-->
-<!--<p>On dispose de objets de poids positifs et de valeurs-->
-<!--positives , respectivement.<br>-->
-<!--On a un sac à dos de capacité maximale en poids de W.<br>-->
-<!--<br>-->
-<!--<span class="text-primary"><b>Problème: </b></span> Remplir le sac à dos de sorte de-->
-<!--maximiser-->
-<!--la valeur des objets inclus tout en respectant-->
-<!--la contrainte de poids. <br>-->
-<!--</p>-->
-<!--<p><span class="text-primary"><b>La formule du problème:</b></span></p>-->
-<!--<img src="img/formula.png" class="img-center img-responsive formula_img ">-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 center-block">-->
-<!--<img src="img/knapsack2.png" class="img-center img-responsive">-->
-<!--</div>-->
-<!--</div>-->
-<!--<br>-->
-<!--<hr>-->
-<!--<h3><span class="label label-default">Application</span></h3>-->
-<!--<br>-->
-<!--<form onsubmit="return false;" action="#" accept-charset="UTF-8" class="form-horizontal">-->
-<!--<div class="form-body">-->
-<!--<div class="form-group ">-->
-<!--<label class="col-md-3 control-label">Wmax</label>-->
+<script src="js/algo.js"></script>
 
-<!--<div class="col-md-4">-->
-<!--<input class="form-control numbersOnly" required="required" name="vmax" type="text"-->
-<!--value=0>-->
-<!--</div>-->
-<!--</div>-->
+<script src="js/random-net.js"></script>
 
-<!--<div class="form-group">-->
-<!--<label class="col-md-3 control-label">Tableau des objets</label>-->
-<!--<br>-->
-<!--&lt;!&ndash;Le tableau&ndash;&gt;-->
-<!--<div class="container" style="width: 50%">-->
-<!--<div class="row clearfix">-->
-<!--<div class="col-md-12 column">-->
-<!--<table class="table table-bordered table-hover" id="tab_logic">-->
-<!--<thead>-->
-<!--<tr>-->
-<!--<th class="text-center">-->
-<!--#-->
-<!--</th>-->
-<!--<th class="text-center">-->
-<!--v (vateur)-->
-<!--</th>-->
-<!--<th class="text-center">-->
-<!--w (poids)-->
-<!--</th>-->
-<!--</tr>-->
-<!--</thead>-->
-<!--<tbody>-->
-<!--<tr id='addr0'>-->
-<!--<td>-->
-<!--objet1-->
-<!--</td>-->
-<!--<td>-->
-<!--<input type="text" name='value' placeholder='valeur'-->
-<!--class="form-control numbersOnly" value=0-->
-<!--required="required"/>-->
-<!--</td>-->
-<!--<td>-->
-<!--<input type="text" name='weight' placeholder='poids'-->
-<!--class="form-control numbersOnly" value=0-->
-<!--required="required"/>-->
-<!--</td>-->
-<!--</tr>-->
-<!--</tbody>-->
-<!--</table>-->
-<!--</div>-->
-<!--</div>-->
-<!--<a id='add_row' class="btn btn-success btn-circle btn-lg pull-left">-->
-<!--<i class="fa fa-plus"></i></a>-->
-<!--<a id='delete_row' class="btn btn-danger btn-circle btn-lg pull-right">-->
-<!--<i class="fa fa-minus"></i>-->
-<!--</a>-->
-<!--</div>-->
-
-<!--</div>-->
-<!--</div>-->
-
-<!--<br>-->
-<!--<div class="form-actions">-->
-<!--<div class="row">-->
-<!--<div class="col-md-offset-6 col-md-3">-->
-<!--<input type="submit" class="btn pull-right" type="submit" value="Soumettre"-->
-<!--style="width: 200px"-->
-<!--id="btn-submit">-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="col-md-offset-6 col-md-3">-->
-<!--<input type="submit" class="btn pull-right" type="submit" value="Detail Algo"-->
-<!--style="width: 200px; margin-top: 10px"-->
-<!--id="btn-detail">-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</form>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-
-<script type="text/javascript" src="js/jquery.js"></script>
-<!--<script type="text/javascript" src="js/jquery.cookie.js"></script>-->
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script>
 
+    function dd() {
+//        console.log(network.body.data.nodes._data,network.body.data.edges);
 
-    //ask for node name
-    //add node
-    //ask for node dependency
-    //add dependency
+        var myNodes = {};
+        var myNodesArr = [];
+        var visNodes = network.body.data.nodes._data;
+        var visEdges = network.body.data.edges._data;
 
-    //calculate biconnected component ** with illustrations
+        $.each(visNodes, function (key) {
+            myNodes[key] = new noeud(key, []);
+        });
 
-    //show those components
+        $.each(visEdges, function (key, edge) {
+            myNodes[edge.from]["children"].push(myNodes[edge.to]);
+            myNodes[edge.to]["children"].push(myNodes[edge.from]);
+        });
+
+        console.log(myNodes);
+
+        $.each(myNodes, function (key, nodeMH) {
+            myNodesArr.push(nodeMH);
+        });
 
 
-    // create an array with nodes
-    var nodes = new vis.DataSet([
-        {id: 1, label: 'Node 1'},
-        {id: 2, label: 'Node 2'},
-        {id: 3, label: 'Node 3'},
-        {id: 4, label: 'Node 4'},
-        {id: 5, label: 'Node 5'}
-    ]);
+        //mahfoud struct is ready
+        console.log(myNodesArr);
 
-    // create an array with edges
-    var edges = new vis.DataSet([
-        {from: 1, to: 3},
-        {from: 1, to: 2},
-        {from: 2, to: 4},
-        {from: 2, to: 5}
-    ]);
+        biconnectedObjects = get_biconnected(myNodesArr);
+        console.log(biconnectedObjects);
 
-    // create a network
-    var container = document.getElementById('mynetwork');
+        var biconnectedIdArr = [];
+        $.each(biconnectedObjects, function (key, nodeMH) {
+            biconnectedIdArr.push(nodeMH.name);
+        });
 
-    // provide the data in the vis format
-    var data = {
-        nodes: nodes,
-        edges: edges
-    };
-    var options = {};
+        console.log(biconnectedIdArr);
+//        network.selectNodes(biconnectedIdArr,true);
 
-    // initialize your network!
-    var network = new vis.Network(container, data, options);
-    
-    function addNode() {
+        $.each(biconnectedIdArr, function (key, nodeID) {
+            var clickedNode = network.body.data.nodes.get(nodeID);
+            clickedNode.color = {
+                border: '#000000',
+                background: '#000000',
+                highlight: {
+                    border: '#2B7CE9',
+                    background: '#D2E5FF'
+                }
+            };
+            network.body.data.nodes.update(clickedNode);
+        });
 
     }
 
-
+    function randomNet() {
+        draw(getScaleFreeNetwork(20));
+    }
 </script>
 
-</body>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
 
+</body>
 </html>

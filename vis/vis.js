@@ -43368,6 +43368,23 @@ exports['en'] = {
 exports['en_EN'] = exports['en'];
 exports['en_US'] = exports['en'];
 
+//Frech
+exports['fr'] = {
+    edit: 'Modifier',
+    del: 'Supprimer l\'élement selectionné',
+    back: 'Retour',
+    addNode: 'Ajouter Noeud',
+    addEdge: 'Ajouter Arret',
+    editNode: 'Modifier Noeud',
+    editEdge: 'Modifier Arret',
+    addDescription: 'Cliquer sur un espace vide pour placer un nouveau noeud.',
+    edgeDescription: 'Cliquer sur un noeud et traîner son Arret vers une autre pour lier entre les deux.',
+    editEdgeDescription: 'Cliquer sur les points de controle et traîner les vers un autre noeud pour etabilir la connexion.',
+    createEdgeError:'Impossible de faire lier les Arret avec un cluster.',
+    deleteClusterError: 'Incapable de supprimer les clusters.',
+    editClusterError: 'Incapable de modifier les clusters .'
+};
+
 // German
 exports['de'] = {
   edit: 'Editieren',
